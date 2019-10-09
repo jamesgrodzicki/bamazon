@@ -25,4 +25,4 @@ This app allows a user to 'buy' products from a mock database.
 
 # Acknowledgements
 
-This app was built by me, James Grodzicki. Enjoy! :slight_smile:
+This app was built by me, James Grodzicki. Enjoy! :sparkles:
