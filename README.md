@@ -22,3 +22,7 @@ This app allows a user to 'buy' products from a mock database.
 ## Follow-Up Searches
 
 ![second-search](/images/second-search.png)
+
+# Acknowledgements
+
+This app was built by me, James Grodzicki. Enjoy! :slight_smile:
