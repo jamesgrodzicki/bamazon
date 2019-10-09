@@ -16,15 +16,12 @@ connection.connect(function (err) {
 
 runCustomer();
 
-connection.end();
-
 function runCustomer() {
     connection.query('SELECT * FROM products', function (err, result, fields) {
         if (err) throw err;
         let resultArray = makeArray(result);
         let output = table(resultArray);
         console.log(output);
-        // let item_id = askID(result.length);
         askID(result.length);
     });
 }
@@ -37,12 +34,41 @@ function askID(arrayLength) {
             message: 'Enter the ID of the item you would like to buy: '
         }
     ]).then(function (ans) {
-        if (ans.item_id > 0 && ans.item_id < arrayLength) {
-            return ans.item_id;
+        if (ans.item_id > 0 && ans.item_id < arrayLength + 1) {
+            askQuantity(ans.item_id);
         } else {
-            console.log(item_id + 'is not valid');
+            console.log(ans.item_id + ' is not valid');
+            connection.end();
         }
-    })
+    });
+}
+
+function askQuantity(id) {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'amount',
+            message: 'How many would you like to buy? '
+        }
+    ]).then(function (ans) {
+        connection.query(`SELECT * FROM products WHERE item_id=${id}`, function (err, result, fields) {
+            if (err) throw err;
+            if(ans.amount > 0 && ans.amount <= result[0].stock_quantity){
+                connection.query(`UPDATE products SET ? WHERE item_id=${id}`,
+                [{
+                    stock_quantity: result[0].stock_quantity - ans.amount
+                }],
+                function(err){
+                    if(err) throw err;
+                    console.log('quantity updated');
+                });
+            } else{
+                console.log('Not a valid amount');
+            }
+            console.log(result);
+            connection.end();
+        });
+    });
 }
 
 function makeArray(arrayOfObjects) {
