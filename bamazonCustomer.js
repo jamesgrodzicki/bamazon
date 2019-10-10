@@ -87,13 +87,10 @@ function askQuantity(id) {
     });
 }
 
-function makeArray(arrayOfObjects) {
-    let keysArray = Object.keys(arrayOfObjects[0]);
-    let newArray = [];
-    newArray.push(keysArray);
-    for (let i = 0; i < arrayOfObjects.length; i++) {
-        let arrayHolder = Object.values(arrayOfObjects[i]);
-        newArray.push(arrayHolder);
-    }
-    return newArray;
+function makeArray(arrayOfObjs) {
+    let titles = Object.keys(arrayOfObjs[0]);
+    return [
+        titles,
+        ...arrayOfObjs.map(function (a) { return Object.values(a); })
+    ];
 }
